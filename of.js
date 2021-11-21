@@ -1,4 +1,4 @@
-downloader = (function () {
+let downloader = (function () {
     function loadJSZip() {
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js';
@@ -7,10 +7,8 @@ downloader = (function () {
 
     loadJSZip();
 
-    function getImageUrls() {
-        console.log('Extracting image urls');
-        const imgNodes = $$('.js-posts-container.b-photos.g-negative-sides-gaps .b-photos__item');
-        const imgUrls = imgNodes.map(e => {
+    function getMediaUrls(nodes) {
+        const urls = nodes.map(e => {
             const vue = e.__vue__;
             const computed = vue._computedWatchers.media;
             if (computed != undefined) {
@@ -21,18 +19,19 @@ downloader = (function () {
                 return parentVnode._computedWatchers.media.value[0].full;
             }
         })
-        return imgUrls;
+        return urls
+    }
+
+    function getImageUrls() {
+        console.log('Extracting image urls');
+        const imgNodes = $$('.js-posts-container.b-photos.g-negative-sides-gaps .b-photos__item');
+        return getMediaUrls(imgNodes)
     }
 
     function getVideoUrls() {
         console.log('Extracting video urls');
         const vidNodes = $$('.js-posts-container.b-photos.g-negative-sides-gaps .b-photos__item.m-video-item');
-        const vidUrls = vidNodes.map(e => {
-            const vue = e.__vue__;
-            const computedVideo = vue._computedWatchers.media.value;
-            return computedVideo[0].full;
-        })
-        return vidUrls;
+        return getMediaUrls(vidNodes)
     }
 
     function getStoryUrls() {
