@@ -54,7 +54,6 @@ let downloader = (function () {
     }
 
     async function createZip(urls) {
-        console.log('Creating zip file');
         const zip = JSZip();
         for (const url of urls) {
             const filename = getFileName(url);
@@ -62,6 +61,7 @@ let downloader = (function () {
             const data = await getData(url);
             zip.file(filename, data);
         }
+        console.log('Creating zip file');
         return zip.generateAsync({ type: 'blob' });
     }
 
