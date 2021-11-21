@@ -26,7 +26,7 @@ downloader = (function () {
 
     function getVideoUrls() {
         console.log('Extracting video urls');
-        const vidNodes = $$('.js-posts-container.b-photos.g-negative-sides-gaps ..b-photos__item.m-video-item');
+        const vidNodes = $$('.js-posts-container.b-photos.g-negative-sides-gaps .b-photos__item.m-video-item');
         const vidUrls = vidNodes.map(e => {
             const vue = e.__vue__;
             const computedVideo = vue._computedWatchers.media.value;
